@@ -1,8 +1,8 @@
 # Social Distancing Detection 🚀 💥 
-
-    > **An AI tool that helps the Customers and Workers to monitor Social distancing
-    > in a crowded Workplace**.
-
+```
+An AI tool that helps the Customers and Workers to monitor Social distancing
+in a crowded Workplace.
+```
 ## Abstract 🤩 ☺️
 
 ```
@@ -42,32 +42,24 @@ streams from the camera.
 
 ```
     git clone repo_url 
+``` 
+2. Go to the cloned directory 
 
 ``` 
-
-2. 
-```
     cd social-distance-detector
-
 ```
-
 3. To make the model run with an image
 
 ```
     python SDD_Image.py
-
 ```
-
 4. To make the model run with a video
         
 ``` 
     python SDD_Video.py
-
 ```
-
 5. To make the model run with live streaming webcam
 
 ``` 
     python SDD_Camera.py
-
 ```
