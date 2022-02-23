@@ -31,7 +31,7 @@ streams from the camera.
 <br>
 ⭐ [OpenCV](https://opencv.org/) - *To Work with images and videos.*
 <br>
-🌠 [yolov4 weights](https://github.com/kiyoshiiriemon/yolov4_darknet/tree/master/cfg) - *To Download the yolov3.weights for COCO dataset.*
+🌠 [yolov4 weights](https://github.com/kiyoshiiriemon/yolov4_darknet/tree/master/cfg) - *To Download the yolov4.weights for COCO dataset.*
 <br>
 
 ##  Procedure ✍️ 👇
