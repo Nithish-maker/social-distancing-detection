@@ -4,26 +4,26 @@ import time
 import math
 
     
-labelsPath = "./coco.names"  
+labelsPath = "/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/coco.names"  
 LABELS = open(labelsPath).read().strip().split("\n")
 
 np.random.seed(42)
 COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
 	dtype="uint8")
 
-weightsPath = "../yolov4.weights"
-configPath = "../yolov4.cfg"
-cap = cv2.VideoCapture('../videos/test_video_2.mp4')
+weightsPath = "/home/jai/Desktop/projects/yolov4.weights"
+configPath = "/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/yolov4.cfg"
+cap = cv2.VideoCapture('/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/videos/test_video_1.mp4')
 hasFrame, frame = cap.read()
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 vid_writer = cv2.VideoWriter('output.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame.shape[1],frame.shape[0]))
 while True:
     
     ret,image=cap.read()
-    image=cv2.resize(image,(640,360))
+    image = cv2.resize(image,(640,360))
     (H, W) = image.shape[:2]
     ln = net.getLayerNames()
-    ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
     blob = cv2.dnn.blobFromImage(image, 1 / 300.0, (416, 416),swapRB=True, crop=False)
     net.setInput(blob)
     start = time.time()

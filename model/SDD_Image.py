@@ -26,7 +26,7 @@ frameSize = (frameWidth,frameHeight)
 imageResized = cv2.resize(image,frameSize)
 ln = net.getLayerNames()
 ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
-blob = cv2.dnn.blobFromImage(imageResized, 1 / 255.0, (416, 416),swapRB=True, crop=False)
+blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),swapRB=True, crop=False)
 net.setInput(blob)
 start = time.time()
 layerOutputs = net.forward(ln)
@@ -64,7 +64,7 @@ if len(idxs) > 0:
             (w, h) = (boxes[i][2], boxes[i][3])
             a.append(x)
             b.append(y)
-            cv2.rectangle(imageResized, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
             
 
 distance=[] 
@@ -88,12 +88,12 @@ text=""
 for i in nsd:
     (x, y) = (boxes[i][0], boxes[i][1])
     (w, h) = (boxes[i][2], boxes[i][3])
-    cv2.rectangle(imageResized, (x, y), (x + w, y + h), color, 2)
+    cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
     text = "Alert"
-    cv2.putText(imageResized, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
+    cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
            
-cv2.putText(imageResized, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
-cv2.imshow("Social Distancing Detector", imageResized)
+cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
+cv2.imshow("Social Distancing Detector", image)
 cv2.imwrite('output.jpg', image)
 cv2.waitKey()
 cv2.destroyAllWindows()
