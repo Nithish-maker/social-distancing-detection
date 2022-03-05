@@ -3,6 +3,7 @@ import time
 import cv2
 import math
 
+# path specification 
 labelsPath = "/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/coco.names"
 LABELS = open(labelsPath).read().strip().split("\n")
 
@@ -10,17 +11,22 @@ np.random.seed(42)
 COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
 	dtype="uint8")
 
-weightsPath = "../yolov4.cfg"
-configPath = "../yolov4.weights"
+weightsPath = "/home/jai/Desktop/projects/yolov4.weights"
+configPath = "/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/yolov4.cfg"
 
+# reading darknet neural network w.r.t config and weights path 
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 
-
-image =cv2.imread('../images/test_image_2.jpg')
+# reading image and processing the frames for distance computation 
+image =cv2.imread('/home/jai/Desktop/projects/social-distancing-detection/Mini-project-Social-distance-detector/images/test_image_3.jpg')
 (H, W) = image.shape[:2]
+frameWidth = 960
+frameHeight = 810
+frameSize = (frameWidth,frameHeight)
+imageResized = cv2.resize(image,frameSize)
 ln = net.getLayerNames()
 ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
-blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),swapRB=True, crop=False)
+blob = cv2.dnn.blobFromImage(imageResized, 1 / 255.0, (416, 416),swapRB=True, crop=False)
 net.setInput(blob)
 start = time.time()
 layerOutputs = net.forward(ln)
@@ -29,6 +35,7 @@ print("Frame Prediction Time : {:.6f} seconds".format(end - start))
 boxes = []
 confidences = []
 classIDs = []
+# localizing person objects with bounding boxes
 for output in layerOutputs:
     for detection in output:
         scores = detection[5:]
@@ -57,7 +64,7 @@ if len(idxs) > 0:
             (w, h) = (boxes[i][2], boxes[i][3])
             a.append(x)
             b.append(y)
-            cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
+            cv2.rectangle(imageResized, (x, y), (x + w, y + h), color, 2)
             
 
 distance=[] 
@@ -81,11 +88,12 @@ text=""
 for i in nsd:
     (x, y) = (boxes[i][0], boxes[i][1])
     (w, h) = (boxes[i][2], boxes[i][3])
-    cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
+    cv2.rectangle(imageResized, (x, y), (x + w, y + h), color, 2)
     text = "Alert"
-    cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
+    cv2.putText(imageResized, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
            
-cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,0.5, color, 2)
-cv2.imshow("Social Distancing Detector", image)
+cv2.putText(imageResized, text, (x, y - 5), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.5, color, 2)
+cv2.imshow("Social Distancing Detector", imageResized)
 cv2.imwrite('output.jpg', image)
 cv2.waitKey()
+cv2.destroyAllWindows()

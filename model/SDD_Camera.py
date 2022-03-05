@@ -28,7 +28,7 @@ while(cap.isOpened()):
     imageResized = cv2.resize(image,frameSize)
     ln = net.getLayerNames()
     ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
-    blob = cv2.dnn.blobFromImage(imageResized, 1 / 255.0, (416, 416),swapRB=True, crop=False)
+    blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),swapRB=True, crop=False)
     net.setInput(blob)
     start = time.time()
     layerOutputs = net.forward(ln)
